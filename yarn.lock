@@ -1198,6 +1198,11 @@
   dependencies:
     hi-base32 "^0.5.0"
 
+"@paystack/inline-js@^2.14.0":
+  version "2.14.0"
+  resolved "https://registry.yarnpkg.com/@paystack/inline-js/-/inline-js-2.14.0.tgz#03d7bdc24b069cd4b0d8b76ff23c325115756034"
+  integrity sha512-EkOyp6PbF/q+iE8tTfj5Q9XfSWbRG1KarCmb+V9z+zornHdHmJ3XX3tbI1qhP+dxEhC+1CUqbiQKZ+Vt67Xayg==
+
 "@radix-ui/number@1.0.1":
   version "1.0.1"
   resolved "https://registry.npmjs.org/@radix-ui/number/-/number-1.0.1.tgz"

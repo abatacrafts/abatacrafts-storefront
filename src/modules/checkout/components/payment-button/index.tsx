@@ -1,5 +1,5 @@
 "use client"
-
+import PaystackPop from '@paystack/inline-js';
 import { Cart, PaymentSession } from "@medusajs/medusa"
 import { Button } from "@medusajs/ui"
 import { OnApproveActions, OnApproveData } from "@paypal/paypal-js"
@@ -17,16 +17,18 @@ type PaymentButtonProps = {
 const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
   const notReady =
     !cart ||
-    !cart.shipping_address ||
-    !cart.billing_address ||
-    !cart.email ||
-    cart.shipping_methods.length < 1
+      !cart.shipping_address ||
+      !cart.billing_address ||
+      !cart.email ||
+      cart.shipping_methods.length < 1
       ? true
       : false
 
   const paymentSession = cart.payment_session as PaymentSession
 
   switch (paymentSession.provider_id) {
+    case "paystack":
+      return <PaystackPaymentButton notReady={notReady} session={paymentSession} cart={cart} />
     case "stripe":
       return <StripePaymentButton notReady={notReady} cart={cart} />
     case "manual":
@@ -37,6 +39,72 @@ const PaymentButton: React.FC<PaymentButtonProps> = ({ cart }) => {
       return <Button disabled>Select a payment method</Button>
   }
 }
+
+const PAYSTACK_PUBLIC_KEY = process.env.NEXT_PUBLIC_PAYSTACK_KEY
+const PaystackPaymentButton = ({
+  cart,
+  session,
+  notReady,
+}: {
+  cart: Omit<Cart, "refundable_amount" | "refunded_total">
+  session: PaymentSession
+  notReady: boolean
+}) => {
+
+  const [submitting, setSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+
+  const onPaymentCompleted = async () => {
+    await placeOrder().catch(() => {
+      setErrorMessage("An error occurred, please try again.")
+      setSubmitting(false)
+    })
+  }
+
+  const txRef = String(session.data?.paystackTxRef)
+  const total = cart?.total || 0
+  const email = cart?.email || ""
+  const currency =
+    cart?.region.currency_code.toUpperCase() || "NGN"
+
+  const paystack = new PaystackPop();
+
+  const handlePayment = () => {
+    paystack.newTransaction({
+      ref: txRef,
+      key: PAYSTACK_PUBLIC_KEY,
+      email: email,
+      currency: currency,
+      reference: txRef,
+      amount: total,
+      onSuccess() {
+        onPaymentCompleted()
+        setSubmitting(false)
+      },
+      onCancel() {
+        setSubmitting(false)
+        alert("Window closed.");
+      },
+
+
+    });
+  }
+
+  return (
+    <>
+      <Button
+        onClick={handlePayment}
+        size="large"
+        isLoading={submitting}
+      >
+        Place order
+      </Button>
+      <ErrorMessage error={errorMessage} />
+    </>
+  )
+}
+
+
 
 const StripePaymentButton = ({
   cart,

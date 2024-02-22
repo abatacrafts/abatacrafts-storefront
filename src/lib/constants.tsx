@@ -10,6 +10,11 @@ export const paymentInfoMap: Record<
   string,
   { title: string; icon: React.JSX.Element }
 > = {
+  paystack: {
+    title: "Paystack",
+    icon: <CreditCard />,
+  },
+
   stripe: {
     title: "Credit card",
     icon: <CreditCard />,
