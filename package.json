@@ -1,9 +1,9 @@
 {
-  "name": "medusa-next",
+  "name": "abatacrafts",
   "version": "1.0.3",
   "private": true,
-  "author": "Kasper Fabricius Kristensen <kasper@medusajs.com> & Victor Gerbrands <victor@medusajs.com> (https://www.medusajs.com)",
-  "description": "Next.js Starter to be used with Medusa server",
+  "author": "Jamal Ibrahim Umar <captjay98@gmail.com> (https://www.thecodecaptain.vercel.app)",
+  "description": "Next.js Frontend for Abata Crafts",
   "keywords": [
     "medusa-storefront"
   ],
