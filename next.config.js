@@ -15,6 +15,10 @@ const nextConfig = withStoreConfig({
       },
       {
         protocol: "https",
+        hostname: "pub-18a5e9e4436340f381dd6e0303570d87.r2.dev",
+      },
+      {
+        protocol: "https",
         hostname: "medusa-public-images.s3.eu-west-1.amazonaws.com",
       },
       {
