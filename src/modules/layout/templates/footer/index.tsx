@@ -11,7 +11,7 @@ export default async function Footer() {
 
   return (
     <footer className="w-full border-t border-ui-border-base">
-      <div className="flex flex-col w-full h-auto">
+      <div className="flex flex-col w-[95%] m-auto h-auto">
         <div className="flex flex-col gap-y-6 justify-between items-start py-40 xsmall:flex-row">
           <div>
             <LocalizedClientLink
